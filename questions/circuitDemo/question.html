@@ -1,0 +1,40 @@
+<pl-question-panel>
+  <h1>Analog Circuit Element Showcase</h1>
+  <p>
+    This page demonstrates the usage of the <code>&lt;pl-analog-circuit&gt;</code> component for rendering custom analog circuits. All the circuits below and their annotations are generated via the question's <code>server.py</code> code and can be randomized.
+</pl-question-panel>
+
+<pl-analog-circuit answers-name="circuit1" debug="true"> </pl-analog-circuit>
+<pl-analog-circuit answers-name="circuit2" format="circuitikz" scale="0.5">
+  \begin{tikzpicture}
+	% Paths, nodes and wires:
+	\draw (5, 3) to[american voltage source, l={$5V$}] (5, 6);
+	\draw (5, 6) to[american resistor, l={$10\Omega$}] (8, 6);
+	\draw (8, 6) to[american resistor, l={$20\Omega $}] (8, 3);
+	\draw (11, 6) to[american resistor, l={$20\Omega$}] (11, 3);
+	\draw (8, 6) -- (11, 6);
+	\draw (11, 3) -- (8, 3) -- (5, 3);
+  \end{tikzpicture}
+</pl-analog-circuit>
+<pl-analog-circuit answers-name="circuit1">
+{
+    "components": [
+        {"from": "0,0", "to": "0,4", "type": "SourceV", "label": ["+","$V_S$", "-"]},
+        {"from": "0,0", "to": "4,0"},
+        {"from": "0,4", "to": "3,4", "type": "Resistor", "label": ["+","$V_S$", "-"], "annotations": [{"type": "CurrentLabel", "label": "$I_1$", "top": false}], "value": 3, "unit": "Ohms", "siprefixval": ["kilo"], "solve": ["Volts", "Amperes"], "name": "R1", "siprefixans": ["milli"]},
+        {"from": "2,0", "to": "2,2", "type": "Resistor", "label": "$R_3", "value": 6, "unit": "Ohms", "siprefixval": "kilo"},
+        {"from": "2,2", "to": "4,2"},
+        {"from": "3,2", "to": "3,4", "type": "Resistor", "label": "$R_2$", "value": 5, "unit": "Ohms", "siprefixval": "kilo"},
+        {"from": "4,0", "to": "4,2", "type": "SourceI", "label": {"label": "$I_S$", "loc": "bottom"}},
+        {"pos": "2,0", "type": "Ground"}
+    ],
+    "nodes": [
+        {"pos": "0,4", "dot": "filled", "label": "a", "value": 18, "unit": "Volts"},
+        {"pos": "3,4", "dot": "open", "label": "b", "value": 14.4, "unit": "Volts"},
+        {"pos": "3,2", "dot": "filled", "label": "c", "value": 8.4, "unit": "Volts", "siprefixval": "kilo"}
+    ],
+    "annotations": [
+        {"type": "LoopCurrent", "bounds": [[2, 2], [4, 0]], "pad": 0.4, "label": "$I_{loop}$"}
+    ]
+}
+</pl-analog-circuit>
