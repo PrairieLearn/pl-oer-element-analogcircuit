@@ -24,7 +24,7 @@ def normalize_label(label: LabelUnion) -> list[Label]:
         return [label]
     elif isinstance(label, list):
         if all(isinstance(item, str) for item in label):
-            return [{"label": cast(list, label)}]
+            return [{"label": cast(list, label)}] 
         else:
             return [item for sub_label in label for item in normalize_label(sub_label)]
     else:
