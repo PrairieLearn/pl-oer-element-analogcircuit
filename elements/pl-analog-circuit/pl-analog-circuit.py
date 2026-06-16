@@ -22,24 +22,15 @@ class defaults:
 
 def _get_name(element: lxml.html.HtmlElement) -> str:
     answers_name = pl.get_string_attrib(element, "answers-name", None)
-    circuit_name = pl.get_string_attrib(element, "circuit-name", None)
-    if answers_name is not None and circuit_name is not None and answers_name != circuit_name:
-        raise ValueError(
-            "pl-analog-circuit attributes 'answers-name' and 'circuit-name' must match "
-            "when both are provided"
-        )
-    name = answers_name or circuit_name
-    if name is None:
-        raise ValueError("pl-analog-circuit requires 'answers-name' or 'circuit-name'")
-    return name
+    if answers_name is None:
+        raise ValueError("pl-analog-circuit requires 'answers-name'")
+    return answers_name
 
 
 def prepare(element_html: str, data: pl.QuestionData) -> None:
     element: lxml.html.HtmlElement = lxml.html.fragment_fromstring(element_html)
-    required_attribs = []
+    required_attribs = ["answers-name"]
     optional_attribs = [
-        "answers-name",
-        "circuit-name",
         "debug",
         "width",
         "height",
