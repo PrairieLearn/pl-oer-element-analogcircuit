@@ -65,7 +65,6 @@ class Node(TypedDict):
     name: NotRequired[str]
     dot: NotRequired[Literal['open', 'filled'] | bool]
     label: NotRequired[str]
-    annotations: NotRequired[list[Annotation]]
     value: NotRequired[Numeric]
     unit: NotRequired[UnitTypes]
     siprefixval: NotRequired[PrefixTypes | list[PrefixTypes]]  # default: 'unit'

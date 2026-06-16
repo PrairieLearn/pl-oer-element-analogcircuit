@@ -14,8 +14,8 @@ ANALOG_CIRCUIT_TEMPLATE_NAME = "pl-analog-circuit.mustache"
 @dataclass
 class defaults:
     debug = False
-    width = "600"
-    height = "400"
+    width = 600
+    height = 400
     format: Literal["json", "circuitikz"] = "json"
     scale = 1.0
 
@@ -43,8 +43,8 @@ def prepare(element_html: str, data: pl.QuestionData) -> None:
     name = _get_name(element)
 
     debug = pl.get_boolean_attrib(element, "debug", defaults.debug)
-    width = pl.get_string_attrib(element, "width", defaults.width)
-    height = pl.get_string_attrib(element, "height", defaults.height)
+    width = pl.get_integer_attrib(element, "width", defaults.width)
+    height = pl.get_integer_attrib(element, "height", defaults.height)
     format = pl.get_string_attrib(element, "format", defaults.format)
     scale = pl.get_float_attrib(element, "scale", defaults.scale)
 

@@ -28,6 +28,12 @@ def normalize_pos(pos: Pos) -> PosTuple:
 
 
 def parse_circuit(raw_circuit: Any) -> AnalogCircuit:
+    if isinstance(raw_circuit, dict):
+        for node in raw_circuit.get("nodes", []):
+            if isinstance(node, dict) and "annotations" in node:
+                raise ValueError(
+                    "node annotations are not supported; use top-level or component annotations"
+                )
     return validate(raw_circuit, AnalogCircuit)
 
 
