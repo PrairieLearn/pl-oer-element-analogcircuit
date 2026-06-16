@@ -10,6 +10,8 @@ from math import ceil
 
 E = TypeVar('E', bound=elm.Element)
 
+LOOP_CURRENT_DEFAULT_PAD = 0.4
+
 
 def draw_label(el: E, label: list[Label] | None) -> E:
     for lbl in label or []:
@@ -174,7 +176,7 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                 bbox = bbox_from_points(points)
                 # swap min and max
                 bbox = BBox(bbox.xmax, bbox.ymax, bbox.xmin, bbox.ymin)
-                pad = (annotation["pad"] * d.unit) if "pad" in annotation else 0.2
+                pad = annotation.get("pad", LOOP_CURRENT_DEFAULT_PAD) * d.unit
                 el = elm.LoopCurrent(
                     elm_list=[cast(elm.Element, FakeElement(bbox))] * 4,
                     pad=pad

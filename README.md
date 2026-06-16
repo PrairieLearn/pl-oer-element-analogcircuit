@@ -35,17 +35,17 @@ def generate(data):
     data["params"]["circuit"] = {
         "circuit": {
             "components": [
-                {"from": "0,0", "to": "0,4", "type": "SourceV", "label": "$V_S$"},
-                {"from": "0,4", "to": "3,4", "type": "Resistor", "label": "$R_1$"},
-                {"from": "3,4", "to": "3,0", "type": "Resistor", "label": "$R_2$"},
-                {"from": "3,0", "to": "0,0"},
+                {"from": "0,0", "to": "0,3", "type": "SourceV", "label": "$V_S$"},
+                {"from": "0,3", "to": "4,3", "type": "Resistor", "label": "$R_1$"},
+                {"from": "4,3", "to": "4,0", "type": "Resistor", "label": "$R_2$"},
+                {"from": "4,0", "to": "0,0"},
                 {"pos": "0,0", "type": "Ground"},
             ],
             "nodes": [
-                {"pos": "0,4", "dot": "filled", "label": "a"},
+                {"pos": "0,3", "dot": "filled", "label": "a"},
             ],
             "annotations": [
-                {"type": "LoopCurrent", "bounds": ("0,0", "3,4"), "label": "$I$"},
+                {"type": "LoopCurrent", "bounds": ("0,0", "4,3"), "label": "$I$"},
             ],
         }
     }
