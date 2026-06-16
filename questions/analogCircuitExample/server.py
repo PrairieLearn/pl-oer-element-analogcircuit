@@ -55,8 +55,8 @@ def generate(data):
                 {"pos": "3,0", "type": "Ground"},
             ],
             "nodes": [
-                {"pos": "3,3", "dot": "filled", "label": "a"},
-                {"pos": "3,0", "dot": "filled", "label": "b"},
+                {"pos": "3,3", "dot": "filled"},
+                {"pos": "3,0", "dot": "filled"},
             ],
             "annotations": [
                 {"type": "LoopCurrent", "bounds": ["0,0", "3,3"], "label": "$I_L$"},
