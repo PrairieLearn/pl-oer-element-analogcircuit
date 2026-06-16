@@ -1,0 +1,63 @@
+<pl-question-panel>
+  <p>
+    This question demonstrates the <code>pl-analog-circuit</code> element with a
+    fixed circuit, a CircuitikZ/TikZ circuit, and a randomized circuit generated in
+    <code>server.py</code>.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1: Fixed JSON circuit</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This example matches the minimal JSON circuit shown in the README,
+        including components, a labeled node, and a loop-current annotation.
+      </p>
+    </pl-question-panel>
+    <pl-analog-circuit answers-name="readme_circuit"></pl-analog-circuit>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2: CircuitikZ/TikZ circuit</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This example renders a circuit from inline CircuitikZ/TikZ source using
+        <code>format="circuitikz"</code>.
+      </p>
+    </pl-question-panel>
+    <pl-analog-circuit answers-name="tikz_circuit" format="circuitikz" scale="0.5">
+      \begin{tikzpicture}
+        \draw (0, 0) to[american voltage source, v^>={$12V$}] (0, 4);
+        \draw (0, 4) to[american resistor, R={$2k\Omega$}, -*] (3, 4);
+        \draw (3, 4) to[american resistor, R={$4k\Omega$}] (6, 4);
+        \draw (3, 4) to[american resistor, R={$3k\Omega$}] (3, 2);
+        \draw (3, 2) -- (6, 2);
+        \draw (6, 4) to[current source, l={$2mA$}] (6, 2);
+        \draw (6, 2) to[american resistor, R={$1k\Omega$}] (6, 0);
+        \draw (6, 0) -- (0, 0) node[ground] {};
+      \end{tikzpicture}
+    </pl-analog-circuit>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 3: Randomized generated circuit</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This voltage-divider circuit is generated with randomized source and
+        resistor values. Use the rendered circuit to compute the output voltage.
+      </p>
+    </pl-question-panel>
+    <pl-analog-circuit answers-name="random_circuit"></pl-analog-circuit>
+    <pl-number-input
+      answers-name="vout"
+      label="$V_{out} =$"
+      suffix="$V$"
+      rtol="0.01"
+    ></pl-number-input>
+  </div>
+</div>

@@ -14,7 +14,7 @@
         {
 	    "title": "Element preview", 
             "questions": [
-                { "id": "circuitDemo",           "points": 1}
+                { "id": "analogCircuitExample",  "points": 1}
             ]
         },
         {
