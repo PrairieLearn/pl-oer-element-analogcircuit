@@ -111,7 +111,7 @@ endpoints or annotation bounds.
 #### Circuit Annotations
 
 The only currently supported top-level annotation is `LoopCurrent`, with `bounds`, 
-optional `pad`, and optional `label`. Bounds is a tuple or list of the top left and 
+optional `pad` (default: `0.3`), and optional `label`. Bounds is a tuple or list of the top left and 
 bottom right bounds of the annotation, which can take the same format as component 
 endpoints.
 

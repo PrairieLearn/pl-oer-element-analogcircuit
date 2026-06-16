@@ -48,15 +48,16 @@
   <div class="card-body">
     <pl-question-panel>
       <p>
-        This voltage-divider circuit is generated with randomized source and
-        resistor values. Use the rendered circuit to compute the output voltage.
+        This parallel-branch circuit is generated with randomized source and
+        resistor values. Use the rendered circuit to compute the total source
+        current.
       </p>
     </pl-question-panel>
     <pl-analog-circuit answers-name="random_circuit"></pl-analog-circuit>
     <pl-number-input
-      answers-name="vout"
-      label="$V_{out} =$"
-      suffix="$V$"
+      answers-name="source_current"
+      label="$I_S =$"
+      suffix="$mA$"
       rtol="0.01"
     ></pl-number-input>
   </div>

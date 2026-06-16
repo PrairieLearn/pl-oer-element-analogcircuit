@@ -10,7 +10,7 @@ from math import ceil
 
 E = TypeVar('E', bound=elm.Element)
 
-LOOP_CURRENT_DEFAULT_PAD = 0.4
+LOOP_CURRENT_DEFAULT_PAD = 0.3
 
 
 def draw_label(el: E, label: list[Label] | None) -> E:
