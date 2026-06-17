@@ -2,7 +2,8 @@ import random
 
 
 def generate(data):
-    data["params"]["readme_circuit"] = {
+    data["correct_answers"]["voltage"] = 2.7
+    data["params"]["circuit"] = {
         "circuit": {
             "components": [
                 {"from": "0,0", "to": "0,3", "type": "SourceV", "label": "$V_S$"},
@@ -15,7 +16,7 @@ def generate(data):
                 {"pos": "0,3", "dot": "filled", "label": "a"},
             ],
             "annotations": [
-                {"type": "LoopCurrent", "bounds": ["0,0", "4,3"], "label": "$I$"},
+                {"type": "LoopCurrent", "bounds": ("0,0", "4,3"), "label": "$I$"},
             ],
         }
     }
