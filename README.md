@@ -18,6 +18,8 @@ render circuits from JSON circuit dictionaries or from CircuitikZ/TikZ inputs.
 The element itself only displays the circuit. Other elements need to be used to
 collect student answers for grading.
 
+<img src="images/sampleCircuit.png" width="500">
+
 ### Example
 
 ```html
