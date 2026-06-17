@@ -28,16 +28,16 @@ collect student answers for grading.
 </pl-question-panel>
 
 <pl-analog-circuit answers-name="circuit"></pl-analog-circuit>
-<pl-number-input answers-name="voltage" label="$V_R =$" suffix="$V$"></pl-number-input>
+<pl-number-input answers-name="voltage" label="$V_S =$" suffix="$V$"></pl-number-input>
 ```
 
 ```python
 def generate(data):
-    data["correct_answers"]["voltage"] = 2.7
+    data["correct_answers"]["voltage"] = 9.0
     data["params"]["circuit"] = {
         "circuit": {
             "components": [
-                {"from": "0,0", "to": "0,3", "type": "SourceV", "label": "$9\\,V$"},
+                {"from": "0,0", "to": "0,3", "type": "SourceV", "label": "$V_S$"},
                 {"from": "0,3", "to": "4,3", "type": "Resistor", "label": "$R_1=7\\,k\\Omega$"},
                 {"from": "4,3", "to": "4,0", "type": "Resistor", "label": "$R_2=3\\,k\\Omega$"},
                 {"from": "4,0", "to": "0,0"},
