@@ -91,14 +91,16 @@ such as `Resistor`, `Capacitor`, `SourceV`, `SourceI`, `Line`, and `Ground`.
 
 Component positions can be tuples, `"x,y"` strings, or node names (see below).
 
-Component labels can be strings, Schemdraw label dictionaries, or lists of
-either form:
+Component labels can be strings, label dictionaries, or lists of either form:
 
 ```python
 {"label": "$R_1$"}
-{"label": {"label": "$R_1$", "loc": "bottom"}}
-{"label": [{"label": "$I$", "loc": "top"}, {"label": "$+$", "loc": "left"}]}
+{"label": [{"label": "$I$", "side": "top"}, {"label": "$+$", "side": "left"}]}
 ```
+
+It is recommended to use `side` for placing labels on two-terminal components. The
+built-in Schemdraw placement parameter `loc` is also supported, but can lead to
+unexpected results for rotated components.
 
 The only currently supported component annotation is `CurrentLabel`, with optional
 `label`, `top`, `ofst`, and `reverse` keys.

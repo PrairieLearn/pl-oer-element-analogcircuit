@@ -37,6 +37,26 @@ def to_drawing_pos(pos: PosTuple, unit: float) -> tuple[float, float]:
     return (pos[0] * unit, pos[1] * unit)
 
 
+def label_side_to_loc(from_: PosTuple, to: PosTuple, side: str) -> str:
+    if abs(to[1] - from_[1]) > abs(to[0] - from_[0]):
+        if side == "right":
+            return "bottom"
+        if side == "left":
+            return "top"
+    return side
+
+
+def orient_labels(from_: PosTuple, to: PosTuple, label: list[Label] | None) -> list[Label]:
+    oriented_labels = []
+    for lbl in label or []:
+        oriented_label = dict(lbl)
+        side = oriented_label.pop("side", None)
+        if side is not None and "loc" not in oriented_label:
+            oriented_label["loc"] = label_side_to_loc(from_, to, str(side))
+        oriented_labels.append(cast(Label, oriented_label))
+    return oriented_labels
+
+
 def validation(from_, to, type):
     if type != "Line":
         (fx, fy) = from_
@@ -59,7 +79,7 @@ def draw_component(
     validation(from_, to, type)
 
     el: elm.Element2Term = getattr(elm, type)()
-    el = draw_label(el, label)
+    el = draw_label(el, orient_labels(from_, to, label))
     el.endpoints(to_drawing_pos(from_, unit), to_drawing_pos(to, unit))
     return el
 

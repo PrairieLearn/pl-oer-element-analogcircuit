@@ -33,6 +33,7 @@ PrefixTypes: TypeAlias = Literal['nano', 'micro', 'milli', 'centi', 'deci', 'uni
 class Label(TypedDict):
     label: str | list[str]
     loc: NotRequired[LabelLoc]
+    side: NotRequired[Literal['top', 'bottom', 'left', 'right']]
     ofst: NotRequired[PosTuple | float | None]
     halign: NotRequired[Halign]
     valign: NotRequired[Valign]
