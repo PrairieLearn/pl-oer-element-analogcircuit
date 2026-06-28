@@ -1,7 +1,18 @@
 from .circuit_types import Pos, AnalogCircuit, PosTuple
 from typing_extensions import NotRequired, get_annotations
-from typing import Any, Literal, TypeVar, Annotated, Union, cast, get_args, get_origin, is_typeddict
+from typing import (
+    Any,
+    Literal,
+    TypeVar,
+    Annotated,
+    Union,
+    cast,
+    get_args,
+    get_origin,
+    is_typeddict,
+)
 from types import UnionType
+
 
 def int_or_float(value: str) -> float | int:
     try:
@@ -16,8 +27,8 @@ def normalize_pos(pos: Pos) -> PosTuple:
             return (x, y)
         case [x, y] | (x, y):
             return (x, y)
-        case str(s) if s.count(',') == 1:
-            x, y = map(int_or_float, s.split(','))
+        case str(s) if s.count(",") == 1:
+            x, y = map(int_or_float, s.split(","))
             return (x, y)
         case str(s) if len(s) == 2:
             return (int(s[0]), int(s[1]))
@@ -37,7 +48,7 @@ def parse_circuit(raw_circuit: Any) -> AnalogCircuit:
     return validate(raw_circuit, AnalogCircuit)
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def validate(instance: Any, type_: type[T]) -> T:
@@ -45,7 +56,9 @@ def validate(instance: Any, type_: type[T]) -> T:
         origin = get_origin(type_)
         if origin is None:
             if not isinstance(instance, type_):
-                raise ValueError(f"invalid type: expected {type_}, got {type(instance)}")
+                raise ValueError(
+                    f"invalid type: expected {type_}, got {type(instance)}"
+                )
         elif origin in (UnionType, Union):
             args = get_args(type_)
             for arg in args:
@@ -53,10 +66,14 @@ def validate(instance: Any, type_: type[T]) -> T:
                     return validate(instance, arg)
                 except ValueError:
                     continue
-            raise ValueError(f"invalid type: expected one of {args}, got {type(instance)}")
+            raise ValueError(
+                f"invalid type: expected one of {args}, got {type(instance)}"
+            )
         elif origin is Literal:
             if instance not in get_args(type_):
-                raise ValueError(f"invalid value: expected one of {get_args(type_)}, got {instance}")
+                raise ValueError(
+                    f"invalid value: expected one of {get_args(type_)}, got {instance}"
+                )
         elif origin is Annotated:
             return validate(instance, get_args(type_)[0])
         elif origin is dict:
@@ -73,7 +90,9 @@ def validate(instance: Any, type_: type[T]) -> T:
         elif origin is tuple:
             item_types = get_args(type_)
             if len(instance) != len(item_types):
-                raise ValueError(f"invalid tuple length: expected {len(item_types)}, got {len(instance)}")
+                raise ValueError(
+                    f"invalid tuple length: expected {len(item_types)}, got {len(instance)}"
+                )
             for v, item_type in zip(instance, item_types):
                 validate(v, item_type)
             return cast(T, tuple(instance))

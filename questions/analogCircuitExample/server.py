@@ -7,8 +7,18 @@ def generate(data):
         "circuit": {
             "components": [
                 {"from": "0,0", "to": "0,3", "type": "SourceV", "label": "$V_S$"},
-                {"from": "0,3", "to": "4,3", "type": "Resistor", "label": "$R_1=7\\,k\\Omega$"},
-                {"from": "4,3", "to": "4,0", "type": "Resistor", "label": "$R_2=3\\,k\\Omega$"},
+                {
+                    "from": "0,3",
+                    "to": "4,3",
+                    "type": "Resistor",
+                    "label": "$R_1=7\\,k\\Omega$",
+                },
+                {
+                    "from": "4,3",
+                    "to": "4,0",
+                    "type": "Resistor",
+                    "label": "$R_2=3\\,k\\Omega$",
+                },
                 {"from": "4,0", "to": "0,0"},
                 {"pos": "0,0", "type": "Ground"},
             ],
@@ -16,7 +26,11 @@ def generate(data):
                 {"pos": "0,3", "dot": "filled", "label": "a"},
             ],
             "annotations": [
-                {"type": "LoopCurrent", "bounds": ("0,0", "4,3"), "label": "$I=0.9\\,mA$"},
+                {
+                    "type": "LoopCurrent",
+                    "bounds": ("0,0", "4,3"),
+                    "label": "$I=0.9\\,mA$",
+                },
             ],
         }
     }

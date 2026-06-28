@@ -1,6 +1,15 @@
 from collections.abc import Iterable
 from typing import TypeVar, cast
-from .circuit_types import AnalogCircuit, Label, Pos, PosTuple, LabelUnion, Annotation, Component2TermTypes, ComponentTypes
+from .circuit_types import (
+    AnalogCircuit,
+    Label,
+    Pos,
+    PosTuple,
+    LabelUnion,
+    Annotation,
+    Component2TermTypes,
+    ComponentTypes,
+)
 import schemdraw
 from .helpers import normalize_pos
 import schemdraw.elements as elm
@@ -8,7 +17,7 @@ from schemdraw.types import BBox
 import base64
 from math import ceil
 
-E = TypeVar('E', bound=elm.Element)
+E = TypeVar("E", bound=elm.Element)
 
 LOOP_CURRENT_DEFAULT_PAD = 0.3
 
@@ -26,7 +35,7 @@ def normalize_label(label: LabelUnion) -> list[Label]:
         return [label]
     elif isinstance(label, list):
         if all(isinstance(item, str) for item in label):
-            return [{"label": cast(list, label)}] 
+            return [{"label": cast(list, label)}]
         else:
             return [item for sub_label in label for item in normalize_label(sub_label)]
     else:
@@ -46,7 +55,9 @@ def label_side_to_loc(from_: PosTuple, to: PosTuple, side: str) -> str:
     return side
 
 
-def orient_labels(from_: PosTuple, to: PosTuple, label: list[Label] | None) -> list[Label]:
+def orient_labels(
+    from_: PosTuple, to: PosTuple, label: list[Label] | None
+) -> list[Label]:
     oriented_labels = []
     for lbl in label or []:
         oriented_label = dict(lbl)
@@ -115,7 +126,9 @@ def bbox_from_points(points: Iterable[PosTuple]) -> BBox:
     return BBox(min(xs), min(ys), max(xs), max(ys))
 
 
-def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = False) -> str:
+def render_circuit(
+    circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = False
+) -> str:
     """Render an analog circuit.
 
     This function takes an AnalogCircuit object and returns a base64 data URL of the rendered circuit image.
@@ -152,7 +165,14 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                 type = edge.get("type", "Line")
                 label = normalize_label(edge.get("label", []))
                 annotations = edge.get("annotations", [])
-                comp = draw_component(from_node, to_node, type=type, unit=d.unit, label=label, annotations=annotations)
+                comp = draw_component(
+                    from_node,
+                    to_node,
+                    type=type,
+                    unit=d.unit,
+                    label=label,
+                    annotations=annotations,
+                )
                 nx = max(nx, to_node[0], from_node[0])
                 ny = max(ny, to_node[1], from_node[1])
 
@@ -162,7 +182,7 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                             el = elm.CurrentLabel(
                                 top=annotation.get("top", None),
                                 ofst=annotation.get("ofst", None),
-                                reverse=annotation.get("reverse", None)
+                                reverse=annotation.get("reverse", None),
                             ).at(comp)  # type: ignore # schemdraw typing issue
                             if "label" in annotation:
                                 label = normalize_label(annotation["label"])
@@ -173,7 +193,9 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                 type = edge.get("type", "Ground")
                 label = normalize_label(edge.get("label", []))
                 annotations = edge.get("annotations", [])
-                draw_single_component(pos, type=type, unit=d.unit, label=label, annotations=annotations)
+                draw_single_component(
+                    pos, type=type, unit=d.unit, label=label, annotations=annotations
+                )
                 nx = max(nx, pos[0])
                 ny = max(ny, pos[1])
 
@@ -184,7 +206,7 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                 elm.Dot(open=node["dot"] != "filled").at(dpos)
             if "label" in node:
                 # TODO: make this customizable, default to check top otherwise top-left
-                label = elm.Element().label(node["label"], ofst=(.2, 0))
+                label = elm.Element().label(node["label"], ofst=(0.2, 0))
             nx = max(nx, pos[0])
             ny = max(ny, pos[1])
 
@@ -198,8 +220,7 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
                 bbox = BBox(bbox.xmax, bbox.ymax, bbox.xmin, bbox.ymin)
                 pad = annotation.get("pad", LOOP_CURRENT_DEFAULT_PAD) * d.unit
                 el = elm.LoopCurrent(
-                    elm_list=[cast(elm.Element, FakeElement(bbox))] * 4,
-                    pad=pad
+                    elm_list=[cast(elm.Element, FakeElement(bbox))] * 4, pad=pad
                 )
                 if "label" in annotation:
                     label = normalize_label(annotation["label"])
@@ -209,10 +230,12 @@ def render_circuit(circuit: AnalogCircuit, *, scale: float = 1.0, debug: bool = 
             for i in range(ceil(nx) + 1):
                 for j in range(ceil(ny) + 1):
                     pos = to_drawing_pos((i, j), unit=d.unit)
-                    elm.Label(str(i) + "," + str(j)).at(pos).color('red')
+                    elm.Label(str(i) + "," + str(j)).at(pos).color("red")
 
         img_bytes = d.get_imagedata()
-        data_url = "data:image/svg+xml;base64," + base64.b64encode(img_bytes).decode("utf-8")
+        data_url = "data:image/svg+xml;base64," + base64.b64encode(img_bytes).decode(
+            "utf-8"
+        )
         return data_url
 
 

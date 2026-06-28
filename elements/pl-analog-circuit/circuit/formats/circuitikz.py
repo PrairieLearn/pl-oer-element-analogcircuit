@@ -2,17 +2,26 @@ import re
 from dataclasses import dataclass
 from typing import Literal
 
-from ..circuit_types import AnalogCircuit, Component2TermTypes, ComponentTypes, Node, Label, LabelUnion
+from ..circuit_types import (
+    AnalogCircuit,
+    Component2TermTypes,
+    ComponentTypes,
+    Node,
+    Label,
+    LabelUnion,
+)
 from ..helpers import int_or_float, parse_circuit
 
-header_pattern = re.compile(r"\\begin\{(?P<env>circuitikz|tikzpicture)\}(?:\[(?P<options>[^\]]*)\])?")
+header_pattern = re.compile(
+    r"\\begin\{(?P<env>circuitikz|tikzpicture)\}(?:\[(?P<options>[^\]]*)\])?"
+)
 end_pattern = re.compile(r"\\end\{(?P<env>circuitikz|tikzpicture)\}")
 draw_pattern = re.compile(r"\\draw(?:\[[^\]]*\])?\s*(?P<body>[^;]*);", re.DOTALL)
 
 
 Coordinate = tuple[float | int, float | int]
 LabelList = list[str | Label]
-DotValue = Literal['open', 'filled']
+DotValue = Literal["open", "filled"]
 
 
 @dataclass(frozen=True)
@@ -225,7 +234,7 @@ def key_metadata(key: str) -> tuple[str, set[str], bool]:
     lowered = " ".join(raw.split()).lower()
     if lowered.startswith("american "):
         american_override = True
-        lowered = lowered[len("american "):].strip()
+        lowered = lowered[len("american ") :].strip()
     elif lowered.endswith(" american"):
         american_override = True
         lowered = lowered[: -len(" american")].strip()
@@ -243,7 +252,9 @@ def normalize_alias_key(key: str) -> tuple[str, bool]:
     return norm_key, american_override
 
 
-def resolve_two_term_alias(key: str, american_style: bool) -> Component2TermTypes | None:
+def resolve_two_term_alias(
+    key: str, american_style: bool
+) -> Component2TermTypes | None:
     if not key:
         return None
     alias = two_term_aliases.get(key)
@@ -252,7 +263,9 @@ def resolve_two_term_alias(key: str, american_style: bool) -> Component2TermType
     return alias.resolve(american=american_style)
 
 
-def resolve_two_term_alias_token(token: str, american_style: bool) -> Component2TermTypes | None:
+def resolve_two_term_alias_token(
+    token: str, american_style: bool
+) -> Component2TermTypes | None:
     key, _, american_override = key_metadata(token)
     return resolve_two_term_alias(key, american_style or american_override)
 
@@ -286,7 +299,9 @@ def parse_segment_options(options: str | None, *, american_style: bool) -> Segme
             if key_base in label_keys:
                 labels.append(make_label_entry(key_base, value_clean, modifiers))
                 continue
-            resolved_alias = resolve_two_term_alias(key_base, american_style or american_override)
+            resolved_alias = resolve_two_term_alias(
+                key_base, american_style or american_override
+            )
             if resolved_alias and component_type == "Line":
                 component_type = resolved_alias
             if key_base.startswith("v"):
@@ -324,7 +339,9 @@ def label_union_from(labels: LabelList | None) -> LabelUnion | None:
     return labels
 
 
-def register_dot(nodes: dict[Coordinate, Node], pos: Coordinate, dot_type: DotValue | None) -> None:
+def register_dot(
+    nodes: dict[Coordinate, Node], pos: Coordinate, dot_type: DotValue | None
+) -> None:
     if not dot_type:
         return
     node = nodes.setdefault(pos, {"pos": pos})
@@ -332,7 +349,9 @@ def register_dot(nodes: dict[Coordinate, Node], pos: Coordinate, dot_type: DotVa
         node["dot"] = dot_type
 
 
-def resolve_single_component(options: str | None, american_style: bool) -> ComponentTypes | None:
+def resolve_single_component(
+    options: str | None, american_style: bool
+) -> ComponentTypes | None:
     if not options:
         return None
     tokens = split_options(options)
@@ -370,10 +389,12 @@ def parse_node_tokens(
             parser.read_braces()
         component_type = resolve_single_component(options, american_style)
         if component_type:
-            components.append({
-                "pos": node_pos or pos,
-                "type": component_type,
-            })
+            components.append(
+                {
+                    "pos": node_pos or pos,
+                    "type": component_type,
+                }
+            )
 
 
 def parse_draw_command(

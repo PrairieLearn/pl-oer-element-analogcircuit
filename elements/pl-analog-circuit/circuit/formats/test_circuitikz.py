@@ -175,10 +175,9 @@ class CircuitikzParserTests(unittest.TestCase):
 
         labels = component.get("label")
         self.assertIsInstance(labels, list)
-        self.assertEqual(labels, [
-            {"label": "$I$", "loc": "top"},
-            {"label": "node", "loc": "bottom"}
-        ])
+        self.assertEqual(
+            labels, [{"label": "$I$", "loc": "top"}, {"label": "node", "loc": "bottom"}]
+        )
 
 
 if __name__ == "__main__":
