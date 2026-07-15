@@ -96,16 +96,15 @@ def render(element_html: str, data: pl.QuestionData) -> str:
 
     rendered_circuit_url = render_circuit(circuit, scale=scale, debug=debug)
 
-    if data["panel"] == "question":
-        html_params = {
-            "question": True,
-            "debug": debug,
-            "width": width,
-            "height": height,
-            "data": json.dumps(circuit, indent=2),
-            "img": rendered_circuit_url,
-        }
-        return chevron.render(template, html_params)
+    html_params = {
+        "question": True,
+        "debug": debug,
+        "width": width,
+        "height": height,
+        "data": json.dumps(circuit, indent=2),
+        "img": rendered_circuit_url,
+    }
+    return chevron.render(template, html_params)
 
 
 def grade(element_html: str, data: pl.QuestionData) -> None:

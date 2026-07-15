@@ -237,6 +237,3 @@ def render_circuit(
             "utf-8"
         )
         return data_url
-
-
-elm.CurrentLabel
